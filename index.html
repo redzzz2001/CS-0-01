@@ -83,7 +83,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(
 .modal{background:var(--bg);border:1px solid var(--bd);border-radius:6px;padding:20px;max-width:92vw;max-height:88vh;overflow-y:auto}
 
 /* CS2-Style Buy Menu: 5-Column Left Grid + Live 3D Operator on Right */
-#buy-overlay{position:fixed;inset:0;z-index:20;background:linear-gradient(90deg,rgba(12,13,16,0.86) 0%,rgba(12,13,16,0.78) 64%,rgba(12,13,16,0.18) 100%);display:flex;align-items:center;padding:32px 36px;pointer-events:auto}
+#buy-overlay{position:fixed;inset:0;z-index:20;background:linear-gradient(90deg,rgba(12,13,16,0.86) 0%,rgba(12,13,16,0.78) 64%,rgba(12,13,16,0.18) 100%);display:flex;align-items:center;padding:32px 36px 32px 11vw;pointer-events:auto}
 .buy-panel{width:64%;max-width:860px;display:flex;flex-direction:column;gap:12px}
 .buy-head{display:flex;justify-content:space-between;align-items:center;padding:8px 14px;background:rgba(17,17,20,0.92);border:1px solid var(--bd);border-radius:5px}
 #buy-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:0}
@@ -802,7 +802,7 @@ _initCharRenderer(e){
   this.charXrayOutlineBG=e.createBindGroup({layout:this.charXrayOutlinePipe.getBindGroupLayout(0),entries:[{binding:0,resource:{buffer:this.frameBuf}},{binding:1,resource:{buffer:this.charBoneBuf}}]});
 }resize(e,t){const _isMob=(navigator.maxTouchPoints>0&&window.innerWidth<1024),a=Math.min(window.devicePixelRatio||1,_isMob?1.35:2),s=Math.max(1,Math.floor(e*a)),i=Math.max(1,Math.floor(t*a));s===this.width&&i===this.height&&this.depthTex||(this.width=s,this.height=i,this.canvas.width=s,this.canvas.height=i,this.ctx&&this.device&&(this.ctx.configure({device:this.device,format:this.format,alphaMode:"opaque"}),this.hdrTex&&this.hdrTex.destroy(),this.hdrTex=this.device.createTexture({size:[s,i],format:"rgba16float",usage:GPUTextureUsage.RENDER_ATTACHMENT|GPUTextureUsage.TEXTURE_BINDING}),this.hdrView=this.hdrTex.createView(),this.depthTex&&this.depthTex.destroy(),this.depthTex=this.device.createTexture({size:[s,i],format:"depth32float",usage:GPUTextureUsage.RENDER_ATTACHMENT|GPUTextureUsage.TEXTURE_BINDING}),this.depthView=this.depthTex.createView(),this._updatePostBG()))}pushBox(e,t,a,s,i,n,o,r,l,c,h,d,m,p,f,u=0,y=1,x=0,g=1){const v=20*t,T=Math.cos(l),M=Math.sin(l),b=Math.cos(c),A=Math.sin(c),S=Math.cos(h),_=Math.sin(h),z=T*S+M*A*_,w=-T*_+M*A*S,C=M*b,k=b*_,E=b*S,P=-A,R=-M*S+T*A*_,N=M*_+T*A*S,D=T*b;e[v]=z*n,e[v+1]=w*o,e[v+2]=C*r,e[v+3]=a,e[v+4]=k*n,e[v+5]=E*o,e[v+6]=P*r,e[v+7]=s,e[v+8]=R*n,e[v+9]=N*o,e[v+10]=D*r,e[v+11]=i,e[v+12]=d,e[v+13]=m,e[v+14]=p,e[v+15]=f,e[v+16]=u,e[v+17]=y,e[v+18]=x,e[v+19]=g}addWorldBox(e,t,a,s,i,n,o,r,l,c,h,d,m,p=0,f=1,u=0,y=1){this.instCount>=this.MAX_INST||this.pushBox(this.instData,this.instCount++,e,t,a,s,i,n,o,r,l,c,h,d,m,p,f,u,y)}addVMBox(e,t,a,s,i,n,o,r,l,c,h,d,m,p=0,f=1,u=0,y=1){this.vmCount>=this.MAX_VM||this.pushBox(this.vmData,this.vmCount++,e,t,a,s,i,n,o,r,l,c,h,d,m,p,f,u,y)}addFX(e,t,a,s,i,n,o,r,l,c,h,d){if(this.fxCount>=this.MAX_FX)return;const m=12*this.fxCount++;this.fxData[m]=e,this.fxData[m+1]=t,this.fxData[m+2]=a,this.fxData[m+3]=s,this.fxData[m+4]=i,this.fxData[m+5]=n,this.fxData[m+6]=o,this.fxData[m+7]=r,this.fxData[m+8]=l,this.fxData[m+9]=c,this.fxData[m+10]=h,this.fxData[m+11]=d}extractFrustum(e){const t=this.frustum;t[0]=e[3]+e[0],t[1]=e[7]+e[4],t[2]=e[11]+e[8],t[3]=e[15]+e[12],t[4]=e[3]-e[0],t[5]=e[7]-e[4],t[6]=e[11]-e[8],t[7]=e[15]-e[12],t[8]=e[3]+e[1],t[9]=e[7]+e[5],t[10]=e[11]+e[9],t[11]=e[15]+e[13],t[12]=e[3]-e[1],t[13]=e[7]-e[5],t[14]=e[11]-e[9],t[15]=e[15]-e[13],t[16]=e[2],t[17]=e[6],t[18]=e[10],t[19]=e[14],t[20]=e[3]-e[2],t[21]=e[7]-e[6],t[22]=e[11]-e[10],t[23]=e[15]-e[14];for(let e=0;e<6;e++){const a=4*e,s=1/(Math.hypot(t[a],t[a+1],t[a+2])||1);t[a]*=s,t[a+1]*=s,t[a+2]*=s,t[a+3]*=s}}sphereInFrustum(e,t,a,s){const i=this.frustum;for(let n=0;n<6;n++){const o=4*n;if(i[o]*e+i[o+1]*t+i[o+2]*a+i[o+3]<-s)return!1}return!0}emitBuyMenuOperator(e,t,a,s){
   const i="CT"===e.team;this.vmCharTeam=i?1:2;
-  const yaw=Math.PI+.14*Math.sin(.65*s)-.34,sc=.88,ox=.62,oy=-.82,oz=-2.08;
+  const yaw=Math.PI+.14*Math.sin(.65*s)-.34,sc=.88,ox=.78,oy=-.82,oz=-2.12;
   const RPOS=this.r16Pos||[[0,.9,0],[0,1.06,0],[0,1.28,0],[0,1.53,-.006],[-.212,1.415,.004],[-.212,1.145,.008],[-.212,.895,0],[.212,1.415,.004],[.212,1.145,.008],[.212,.895,0],[-.122,.88,0],[-.122,.485,0],[-.122,.14,0],[.122,.88,0],[.122,.485,0],[.122,.14,0]];
   const RPAR=this.r16Par||[-1,0,1,2,2,4,5,2,7,8,0,10,11,0,13,14];
   const rx=this._fkRx,ry=this._fkRy,rz=this._fkRz;
@@ -856,7 +856,7 @@ _initCharRenderer(e){
   }
   if(t){
     const wx=FM[9*12+3],wy=FM[9*12+7]+.04,wz=FM[9*12+11]+.06;
-    this.emitWeaponParts(t,a,wx,wy,wz,yaw+1.18,.14,.08,.82,!0,0,0,0,0);
+    this.emitWeaponParts(t,a,wx,wy,wz,yaw+1.18,.14,.08,.82,!0,0,0,0,0);this.vmArmsTeam=0;
   }
 }emitPlayerModel(e,t,a,s,mp){
   const i="CT"===e.team,n=!e.alive,o=n?Math.min(1,2.4*e.deathT):0,r=n?o<.85?Math.pow(o/.85,2):1-.04*Math.sin((o-.85)/.15*Math.PI):0;
